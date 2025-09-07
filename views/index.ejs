@@ -1,0 +1,231 @@
+  <% layout("layouts/boilerplate") %>
+
+<style>
+  .taxed-price {
+  background: #198754; /* green for positive/total */
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform 0.3s;
+}
+
+.taxed-price:hover {
+  transform: scale(1.05);
+}
+
+.price, .taxed-price {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.d-none {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+  /* Filter Section */
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 0 1rem;
+    align-items: center;
+  }
+
+  .filter, .tax-toggle-wrapper {
+    flex: 1 1 14%;
+    text-align: center;
+    opacity: 0.8;
+    transition: opacity 0.3s, transform 0.3s;
+    min-width: 100px;
+    padding: 0.5rem;
+  }
+
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+    transform: scale(1.05);
+  }
+
+  .filter i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #0d6efd;
+  }
+
+  .filter p {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  /* Rounded Toggle Design */
+  .tax-toggle-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+
+  .form-check-input {
+    width: 50px;
+    height: 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .form-check-input:checked {
+    background: #198754;
+  }
+
+  .tax-toggle-label {
+    margin-top: 0.3rem;
+    font-weight: 500;
+    color: #333;
+    font-size: 0.9rem;
+  }
+
+  /* Cards */
+  .card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+
+  .card-img-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  /* Explore Button */
+  .explore-btn {
+    border-radius: 8px;
+    background: linear-gradient(90deg, #0d6efd, #198754);
+    border: none;
+    color: white;
+    font-weight: 500;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .explore-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+
+  @media (max-width: 768px) {
+    .filter, .tax-toggle-wrapper {
+      flex: 1 1 45%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .filter, .tax-toggle-wrapper {
+      flex: 1 1 100%;
+    }
+  }
+</style>
+
+<div id="filters" class="container">
+  <div class="filter" data-category="pilgrimage">
+    <i class="fa-solid fa-fire"></i>
+    <p>Trending</p>
+  </div>
+  <div class="filter" data-category="forest">
+    <i class="fa-solid fa-tree"></i>
+    <p>Forest</p>
+  </div>
+  <div class="filter" data-category="relaxation">
+    <i class="fa-solid fa-ship"></i>
+    <p>Cruise</p>
+  </div>
+  <div class="filter" data-category="trekking">
+    <i class="fa-solid fa-person-hiking"></i>
+    <p>Trekking</p>
+  </div>
+  <div class="filter" data-category="adventure">
+    <i class="fa-brands fa-space-awesome"></i>
+    <p>Adventure</p>
+  </div>
+  <div class="filter" data-category="luxury">
+    <i class="fa-solid fa-dove"></i>
+    <p>Luxury</p>
+  </div>
+
+  <!-- Rounded Toggle after Luxury -->
+  <div class="tax-toggle-wrapper">
+    <input class="form-check-input" type="checkbox" id="taxSwitch">
+    <label class="tax-toggle-label" for="taxSwitch">Display Total After Taxes</label>
+  </div>
+</div>
+
+<body class="bg-light">
+  <div class="container mt-5">
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
+      <% for (let travel of alltravel) { %>
+      <div class="col">
+        <a href="/travel/<%= travel._id %>" class="text-decoration-none text-dark">
+          <div class="card h-100 shadow-sm border-0">
+            <img src="<%= travel.imageURL %>" class="card-img-top" alt="<%= travel.packageName %>">
+            <div class="card-body">
+              <h5 class="card-title fw-bold"><%= travel.packageName %></h5>
+              <p class="card-text text-muted"><%= travel.description %></p>
+
+              <!-- Normal Price -->
+              <p class="mb-1 price" data-price="<%= travel.price %>">
+                <strong>Price:</strong> ₹<%= travel.price.toLocaleString("en-IN") %>
+              </p>
+
+              <!-- Taxed Price -->
+              <p class="mb-1 taxed-price d-none">
+                <strong>Total (incl. 18% GST):</strong> ₹<%= Math.round(travel.price * 1.18).toLocaleString("en-IN") %>
+              </p>
+
+              <p class="mb-3"><strong>Location:</strong> <%= travel.location %>, <%= travel.country %></p>
+              <a href="/travel/<%= travel._id %>" class="btn explore-btn w-100">Explore Me</a>
+            </div>
+          </div>
+        </a>
+      </div>
+      <% } %>
+    </div>
+  </div>
+
+<script>
+  // Tax switch
+  const taxSwitch = document.getElementById('taxSwitch');
+taxSwitch.addEventListener('change', () => {
+  const normalPrices = document.querySelectorAll('.price');
+  const taxedPrices = document.querySelectorAll('.taxed-price');
+
+  if (taxSwitch.checked) {
+    normalPrices.forEach(p => p.classList.add('d-none'));
+    taxedPrices.forEach(p => p.classList.remove('d-none'));
+  } else {
+    normalPrices.forEach(p => p.classList.remove('d-none'));
+    taxedPrices.forEach(p => p.classList.add('d-none'));
+  }
+});
+
+
+  // Filters
+  const filters = document.querySelectorAll(".filter");
+  filters.forEach(filter => {
+    filter.addEventListener("click", () => {
+      const category = filter.dataset.category;
+      window.location.href = `/travel?category=${category}`;
+    });
+  });
+</script>
+</body>

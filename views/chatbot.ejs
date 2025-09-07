@@ -1,0 +1,129 @@
+<% layout("layouts/boilerplate") %>
+
+<div id="chat-window" class="p-3 mb-3 rounded shadow-sm" 
+     style="height:400px; overflow-y:auto; background:#f9f9f9;">
+  <div id="chatWindow"></div>
+</div>
+
+<div class="card-footer d-flex flex-column p-3 gap-2">
+  <div class="d-flex mb-2 gap-2">
+    <input id="user-input" type="text" class="form-control rounded-pill" placeholder="Type your message..." />
+    <button id="send-btn" class="btn btn-success rounded-pill">Send</button>
+  </div>
+  <div id="quick-buttons" class="d-flex flex-wrap gap-2">
+    <button class="btn btn-sm btn-outline-success rounded-pill">Adventure</button>
+    <button class="btn btn-sm btn-outline-success rounded-pill">Beach</button>
+    <button class="btn btn-sm btn-outline-success rounded-pill">Pilgrimage</button>
+    <button class="btn btn-sm btn-outline-success rounded-pill">Wildlife</button>
+    <button class="btn btn-sm btn-outline-success rounded-pill">Heritage</button>
+    <button class="btn btn-sm btn-outline-success rounded-pill">Luxury</button>
+  </div>
+</div>
+
+<script>
+  const sendBtn = document.getElementById("send-btn");
+  const userInput = document.getElementById("user-input");
+  const quickButtons = document.getElementById("quick-buttons");
+
+  // Function to get greeting
+  function getTimeBasedGreeting() {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
+  }
+
+  // Add message
+  function addMessage(sender, content, isHTML = false, saveToSession = true) {
+    const chatWindow = document.getElementById("chatWindow");
+    const messageEl = document.createElement("div");
+    messageEl.classList.add("chat-message", sender === "User" ? "user" : "bot");
+
+    if (isHTML) {
+      messageEl.innerHTML = content;
+    } else {
+      messageEl.textContent = `${sender}: ${content}`;
+    }
+
+    chatWindow.appendChild(messageEl);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    if (saveToSession) {
+      const prevMessages =
+        JSON.parse(sessionStorage.getItem("chatHistory")) || [];
+      prevMessages.push({ sender, content, isHTML });
+      sessionStorage.setItem("chatHistory", JSON.stringify(prevMessages));
+    }
+  }
+
+  // Send message function
+  async function sendMessage(text) {
+    if (!text.trim()) return;
+    addMessage("User", text);
+    userInput.value = "";
+    sendBtn.disabled = true;
+
+    addMessage("Bot", "Analyzing your request...", false, false);
+
+    try {
+      const res = await fetch("/chatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text })
+      });
+
+      const data = await res.json();
+      document.querySelector("#chatWindow").lastChild.remove(); // remove "Analyzing..."
+
+      // Loop over bot responses
+      data.botResponse.forEach(t => {
+        addMessage(
+          "Bot",
+          `<div class="card mb-2 shadow-sm rounded-3" style="width:100%;">
+             <img src="${t.imageURL}" class="card-img-top rounded-top" alt="${t.name}">
+             <div class="card-body">
+               <h5 class="card-title">${t.name}</h5>
+               <p class="card-text">${t.description}</p>
+               <p class="text-success fw-bold">₹${t.price}</p>
+               <a href="${t.link}" class="btn btn-sm btn-success rounded-pill" target="_blank">View Package</a>
+             </div>
+           </div>`,
+          true
+        );
+      });
+    } catch (err) {
+      document.querySelector("#chatWindow").lastChild.remove();
+      addMessage("Bot", "❌ Something went wrong!", false, false);
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+
+  // Restore messages + show greeting
+  window.addEventListener("DOMContentLoaded", () => {    
+  sessionStorage.removeItem("chatHistory"); // ✅ clear chat
+    const prevMessages =
+      JSON.parse(sessionStorage.getItem("chatHistory")) || [];
+    prevMessages.forEach(msg =>
+      addMessage(msg.sender, msg.content, msg.isHTML, false)
+    );
+
+    setTimeout(() => {
+      addMessage(
+        "Bot",
+        `${getTimeBasedGreeting()} 👋 How can I help you today? You can choose a category below or type your interest.`,
+        false,
+        false
+      );
+    }, 500);
+  });
+
+  // Event listeners
+  sendBtn.addEventListener("click", () => sendMessage(userInput.value));
+  userInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendMessage(userInput.value);
+  });
+  quickButtons.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => sendMessage(btn.textContent));
+  });
+</script>

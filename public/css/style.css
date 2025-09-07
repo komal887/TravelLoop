@@ -1,0 +1,120 @@
+body{
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display:flex;
+    flex-direction: column;
+    min-height:100vh;
+}
+
+.container{
+    flex:1;
+}
+.navbar{
+    height:5rem;
+    background-color: white;
+}
+
+.fa-compass{
+    color:red;
+    font-size:2rem;
+}
+
+.nav-link{
+    color: #222222 !important;
+}
+
+
+
+.f-info-links a{
+    text-decoration: none;
+    color:#222222;
+}
+
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+
+.f-info{
+    height:8rem;
+    background-color: #ebebeb;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+    text-align: center;
+}
+
+.f-info-links{
+    width:100%;
+    vertical-align: middle;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.f-info-socials{
+    width:100%;
+    font-size: 1.2rem;
+      vertical-align: middle;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+.f-info-socials i{
+  font-size: 1.2rem;
+  margin-right: 1rem;
+}
+
+.f-info-brand{
+    width:100%;
+    font-size: 1.2rem;
+      vertical-align: middle;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+}
+
+/* cards */
+ .card-img-top {
+        height: 250px;
+        object-fit: cover;
+    }
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    .explore-btn {
+        background: linear-gradient(90deg, #28a745, #218838);
+        border: none;
+        font-weight: bold;
+        transition: transform 0.2s ease;
+    }
+    .explore-btn:hover {
+        transform: scale(1.05);
+    }
+
+/*form */
+.add-btn{
+    background-color:red !important;
+    border:none !important;
+}
+
+/*edit*/
+.edit-btn {
+    background-color:red !important;
+    border:none !important;
+}
+
+/*show page*/
+
+.show-img{
+    height:30vh;
+}
+
+ .card-img-top {
+        max-height: 400px;
+        object-fit: cover;
+    }

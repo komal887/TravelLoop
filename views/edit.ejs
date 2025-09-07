@@ -1,0 +1,82 @@
+<% layout("layouts/boilerplate") %>
+
+<body class="bg-light">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <!-- Card -->
+        <div class="card shadow-lg border-0 rounded-4">
+          <!-- Header -->
+          <div class="card-header bg-success text-white text-center fs-4 fw-bold rounded-top">
+            Editing Tour Package
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body p-4">
+
+            <form method="POST" action="/travel/<%= newtravel._id %>?_method=PUT">
+              
+              <!-- Title -->
+              <div class="mb-3">
+                <label for="packageName" class="form-label fw-semibold">Title</label>
+                <input type="text" id="packageName" name="newtravel[packageName]" value="<%= newtravel.packageName %>" class="form-control rounded-pill" required>
+              </div>
+
+              <!-- Description -->
+              <div class="mb-3">
+                <label for="description" class="form-label fw-semibold">Description</label>
+                <textarea id="description" name="newtravel[description]" rows="3" class="form-control rounded-pill" required><%= newtravel.description %></textarea>
+              </div>
+
+              <!-- Includes -->
+              <div class="mb-3">
+                <label for="includes" class="form-label fw-semibold">Includes (comma-separated)</label>
+                <textarea id="includes" name="newtravel[includes]" rows="2" class="form-control rounded-pill"><%= newtravel.includes.join(", ") %></textarea>
+              </div>
+
+              <!-- Image File Name -->
+              <div class="mb-3">
+                <label for="imageFileName" class="form-label fw-semibold">Image File Name</label>
+                <input type="text" id="imageFileName" name="newtravel[imageFileName]" value="<%= newtravel.imageFileName %>" class="form-control rounded-pill">
+              </div>
+
+              <!-- Image URL -->
+              <div class="mb-3">
+                <label for="imageURL" class="form-label fw-semibold">Image URL</label>
+                <input type="text" id="imageURL" name="newtravel[imageURL]" value="<%= newtravel.imageURL %>" class="form-control rounded-pill">
+              </div>
+
+              <div class="row">
+                <!-- Price -->
+                <div class="mb-3 col-md-4">
+                  <label for="price" class="form-label fw-semibold">Price</label>
+                  <input type="number" id="price" name="newtravel[price]" value="<%= newtravel.price %>" class="form-control rounded-pill" required>
+                </div>
+
+                <!-- Country -->
+                <div class="mb-3 col-md-8">
+                  <label for="country" class="form-label fw-semibold">Country</label>
+                  <input type="text" id="country" name="newtravel[country]" value="<%= newtravel.country %>" class="form-control rounded-pill" required>
+                </div>
+              </div>
+
+              <!-- Location -->
+              <div class="mb-3">
+                <label for="location" class="form-label fw-semibold">Location</label>
+                <input type="text" id="location" name="newtravel[location]" value="<%= newtravel.location %>" placeholder="Jaipur, Rajasthan" class="form-control rounded-pill" required>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="d-flex justify-content-between mt-4 flex-wrap gap-2">
+                <a href="/travel/<%= newtravel._id %>" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
+                <button class="btn btn-success rounded-pill px-4" type="submit">Update</button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

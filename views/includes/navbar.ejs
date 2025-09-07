@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <!-- Brand -->
+    <a class="navbar-brand" href="/"><i class="fa-solid fa-compass" style="color: #198754;"></i></a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" 
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Items -->
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      
+      <!-- Left Navigation -->
+      <div class="navbar-nav me-auto">
+        <a class="nav-link" href="/travel" style="color: #198754;">Explore</a>
+      </div>
+
+      <!-- Center Search Bar -->
+      <form class="d-flex mx-auto my-2 my-md-0" action="/travel/search" method="GET" style="max-width: 400px; width: 100%;">
+        <input class="form-control me-2 rounded-pill" type="search" name="q" placeholder="Search packages..." aria-label="Search">
+        <button class="btn btn-outline-success rounded-pill px-4" type="submit">Search</button>
+      </form>
+
+      <!-- Right Navigation -->
+      <div class="navbar-nav ms-auto align-items-center">
+        <a class="nav-link" href="/travel/new" style="color: #198754;">Add New TourPackage</a>
+        <% if(!currUser){ %>
+          <a class="nav-link" href="/signup">Sign Up</a>
+          <a class="nav-link" href="/login">Log In</a>
+        <% } %>
+        <% if(currUser){ %>
+          <a class="nav-link" href="/logout">Log Out</a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Hover effect same as index.ejs */
+  .navbar-nav .nav-link:hover {
+    color: #198754;
+    transition: color 0.3s;
+  }
+
+  /* Make navbar fully responsive */
+  @media (max-width: 768px) {
+    .navbar-nav {
+      text-align: center;
+    }
+    .navbar-nav.ms-auto {
+      margin-top: 0.5rem;
+    }
+  }
+</style>
