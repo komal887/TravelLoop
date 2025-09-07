@@ -7,33 +7,28 @@ const Travel = require("../models/looping.js");
 const mongoose = require("mongoose");
 const router = express.Router();
 
-
 // Home route - all travels
 router.route("/")
   .get(listingController.index)
-  .post(isLoggedIn, upload.single("newtravel[imageURL]"), async (req, res, next) => {
+  .post(isLoggedIn, async (req, res, next) => {
     console.log("Body:", req.body);
-    console.log("File:", req.file);
 
     const newtravel = new Travel(req.body.newtravel);
     console.log(req.user);
     newtravel.owner = req.user._id;
 
-    if (req.file && req.file.path) {
-      newtravel.imageURL = req.file.path;
-    }
+    // Since you are storing image URLs directly, no need for req.file
+    // newtravel.imageURL should already come from req.body.newtravel.imageURL
 
     await newtravel.save();
     req.flash("success", "New TravelPackage Created!");
     res.redirect("/travel");
   });
 
-
 // New travel form
 router.get("/new", isLoggedIn, (req, res) => {
   res.render("form.ejs");
 });
-
 
 // Search route
 router.get("/search", async (req, res) => {
@@ -53,9 +48,6 @@ router.get("/search", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
-
-
-
 
 // Show travel by ID
 router.get("/:id", async (req, res) => {
@@ -78,14 +70,12 @@ router.get("/:id", async (req, res) => {
   res.render("show.ejs", { travel });
 });
 
-
 // Edit form
 router.get("/:id/edit", isLoggedIn, isOwner, async (req, res) => {
   let { id } = req.params;
   const newtravel = await Travel.findById(id);
   res.render("edit.ejs", { newtravel });
 });
-
 
 // Update travel
 router.put("/:id", isLoggedIn, isOwner, async (req, res) => {
@@ -95,7 +85,6 @@ router.put("/:id", isLoggedIn, isOwner, async (req, res) => {
   res.redirect(`/travel/${id}`);
 });
 
-
 // Delete travel
 router.delete("/:id", isLoggedIn, isOwner, async (req, res) => {
   let { id } = req.params;
@@ -103,6 +92,5 @@ router.delete("/:id", isLoggedIn, isOwner, async (req, res) => {
   req.flash("success", "Listing deleted successfully!");
   res.redirect("/travel");
 });
-
 
 module.exports = router;
