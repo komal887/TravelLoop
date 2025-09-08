@@ -1,58 +1,76 @@
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-md navbar-light bg-light border-bottom sticky-top">
   <div class="container-fluid">
     <!-- Brand -->
-    <a class="navbar-brand" href="/"><i class="fa-solid fa-compass" style="color: #198754;"></i></a>
+    <a class="navbar-brand" href="/">
+      <i class="fa-solid fa-compass text-success"></i>
+    </a>
 
     <!-- Mobile Toggle -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-            data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" 
-            aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+      aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Navbar Items -->
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      
-      <!-- Left Navigation -->
-      <div class="navbar-nav me-auto">
-        <a class="nav-link" href="/travel" style="color: #198754;">Explore</a>
-      </div>
 
-      <!-- Center Search Bar -->
-      <form class="d-flex mx-auto my-2 my-md-0" action="/travel/search" method="GET" style="max-width: 400px; width: 100%;">
-        <input class="form-control me-2 rounded-pill" type="search" name="q" placeholder="Search packages..." aria-label="Search">
-        <button class="btn btn-outline-success rounded-pill px-4" type="submit">Search</button>
+      <!-- Top Links -->
+      <ul class="navbar-nav mx-auto text-center mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link text-success" href="/travel">Explore</a>
+        </li>
+      </ul>
+
+      <!-- Search -->
+      <form class="d-flex flex-column flex-md-row align-items-center mx-auto mb-2 mb-md-0 w-100 w-md-auto"
+        action="/travel/search" method="GET" style="max-width: 400px;">
+        <input class="form-control rounded-pill mb-2 mb-md-0 me-md-2 w-100"
+               type="search" name="q" placeholder="Search packages..." aria-label="Search">
+        <button class="btn btn-outline-success rounded-pill px-4 w-100 w-md-auto" type="submit">Search</button>
       </form>
 
-      <!-- Right Navigation -->
-      <div class="navbar-nav ms-auto align-items-center">
-        <a class="nav-link" href="/travel/new" style="color: #198754;">Add New TourPackage</a>
+      <!-- Auth Links -->
+      <ul class="navbar-nav ms-auto text-center">
+        <li class="nav-item">
+          <a class="nav-link text-success" href="/travel/new">Add New TourPackage</a>
+        </li>
         <% if(!currUser){ %>
-          <a class="nav-link" href="/signup">Sign Up</a>
-          <a class="nav-link" href="/login">Log In</a>
+          <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+          <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
         <% } %>
         <% if(currUser){ %>
-          <a class="nav-link" href="/logout">Log Out</a>
+          <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
         <% } %>
-      </div>
+      </ul>
     </div>
   </div>
 </nav>
 
 <style>
-  /* Hover effect same as index.ejs */
+  /* Hover */
   .navbar-nav .nav-link:hover {
-    color: #198754;
+    color: #198754 !important;
     transition: color 0.3s;
   }
 
-  /* Make navbar fully responsive */
+  /* Mobile fixes */
   @media (max-width: 768px) {
     .navbar-nav {
       text-align: center;
     }
-    .navbar-nav.ms-auto {
-      margin-top: 0.5rem;
+
+    form.d-flex {
+      width: 100%;
+    }
+
+    form.d-flex input,
+    form.d-flex button {
+      width: 100%;
+    }
+
+    form.d-flex {
+      gap: 0.5rem;
     }
   }
 </style>

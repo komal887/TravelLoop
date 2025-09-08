@@ -135,6 +135,15 @@
       flex: 1 1 100%;
     }
   }
+  #filters {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 800px;
+    height: 80px;
+    overflow-x:auto;
+    overflow-y: hidden;
+  }
+
 </style>
 
 <div id="filters" class="container">
@@ -162,13 +171,17 @@
     <i class="fa-solid fa-dove"></i>
     <p>Luxury</p>
   </div>
-
-  <!-- Rounded Toggle after Luxury -->
+  </div>
+  <div class="tax-apply">
+      <!-- Rounded Toggle after Luxury -->
   <div class="tax-toggle-wrapper">
     <input class="form-check-input" type="checkbox" id="taxSwitch">
     <label class="tax-toggle-label" for="taxSwitch">Display Total After Taxes</label>
   </div>
 </div>
+
+  </div>
+
 
 <body class="bg-light">
   <div class="container mt-5">

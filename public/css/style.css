@@ -118,3 +118,14 @@ body{
         max-height: 400px;
         object-fit: cover;
     }
+
+    .navbar-collapse {
+        background-color: white;
+        border-radius: 5px;
+
+    }
+   .tax-toggle-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+   }
